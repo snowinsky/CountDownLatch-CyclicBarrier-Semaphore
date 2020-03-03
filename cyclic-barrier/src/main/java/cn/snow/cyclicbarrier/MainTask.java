@@ -1,4 +1,4 @@
-package cn.snow.cdl;
+package cn.snow.cyclicbarrier;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,13 +17,22 @@ public class MainTask extends Thread{
 
     @Override
     public void run() {
-        log.info("main task start");
         super.run();
         try {
             latch.await();
         } catch (InterruptedException e) {
             Thread.interrupted();
         }
-        log.info("main task end");
+        log.info(execute(delayMillis));
+    }
+
+    public String execute(long delayMillis){
+        try {
+            Thread.sleep(delayMillis);
+        } catch (InterruptedException e) {
+            log.error("interrupted exception", e);
+            Thread.interrupted();
+        }
+        return "main task execute complete.";
     }
 }
